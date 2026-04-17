@@ -82,6 +82,7 @@ exitQuiz.addEventListener("click", () => {
   scoreSpan.textContent = 0;
   answersContainer.innerHTML = "";
   addQuizQuestion(currentQuestionIndex);
+  progressBar.style.width = 0;
 });
 
 // ADD QUIZ QUESTIONS
@@ -135,9 +136,49 @@ answersContainer.addEventListener("click", (e) => {
   // UPDATE UI
 
   setTimeout(() => {
-    answersContainer.innerHTML = "";
     currentQuestionIndex++;
-    currentQuestionSpan.textContent = currentQuestionIndex + 1;
-    addQuizQuestion(currentQuestionIndex);
+    const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
+
+    if (currentQuestionIndex < quizQuestions.length) {
+      answersContainer.innerHTML = "";
+      currentQuestionSpan.textContent = currentQuestionIndex + 1;
+      addQuizQuestion(currentQuestionIndex);
+    } else {
+      setTimeout(() => {
+        quizScreen.classList.remove("active");
+        resultScreen.classList.add("active");
+
+        // CALCULATE SCORE
+        finalScoreSpan.textContent = scoreSpan.textContent;
+        maxScoreSpan.textContent = quizQuestions.length;
+
+        const percentage = (scoreSpan.textContent / quizQuestions.length) * 100;
+        if (percentage === 100) {
+          resultMessage.textContent = "Perfect! You're a genius!";
+        } else if (percentage >= 80) {
+          resultMessage.textContent = "Great job! You know your stuff!";
+        } else if (percentage >= 60) {
+          resultMessage.textContent = "Good effort! Keep learning!";
+        } else if (percentage >= 40) {
+          resultMessage.textContent = "Not bad! Try again to improve!";
+        } else {
+          resultMessage.textContent = "Keep studying! You'll get better!";
+        }
+      }, 500);
+    }
   }, 1000);
+});
+
+// RESTART QUIZ
+restartButton.addEventListener("click", () => {
+  resultScreen.classList.remove("active");
+  startScreen.classList.add("active");
+
+  currentQuestionIndex = 0;
+  currentQuestionSpan.textContent = 1;
+  scoreSpan.textContent = 0;
+  answersContainer.innerHTML = "";
+  addQuizQuestion(currentQuestionIndex);
+  progressBar.style.width = 0;
 });
