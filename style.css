@@ -55,6 +55,10 @@ body {
   margin-bottom: 1rem;
 }
 
+#exit-quiz {
+  margin-block-start: 1rem;
+}
+
 #question-text {
   color: #333;
   font-size: 1.5rem;
