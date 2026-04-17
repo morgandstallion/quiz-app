@@ -14,7 +14,6 @@ const maxScoreSpan = document.getElementById("max-score");
 const resultMessage = document.getElementById("result-message");
 const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
-const answerButtons = document.querySelectorAll(".answer-btn");
 
 // GLOBAL VARS
 let currentQuestionIndex = 0;
@@ -92,6 +91,9 @@ function addQuizQuestion(currentQuestionIndex) {
     const button = document.createElement("button");
     button.classList.add("answer-btn");
     button.textContent = answer.text;
+
+    button.dataset.correct = answer.correct;
+
     questionBox.appendChild(button);
   });
 
@@ -101,6 +103,20 @@ addQuizQuestion(currentQuestionIndex);
 
 answersContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("answer-btn")) {
-    console.log(e.target.textContent);
+    let selectedBtn = e.target;
+    let isCorrect = selectedBtn.dataset.correct === "true";
+
+    // Disable all buttons after one is clicked
+    let allButtons = answersContainer.querySelectorAll(".answer-btn");
+    allButtons.forEach((btn) => {
+      btn.disabled = true;
+    });
+
+    if (isCorrect) {
+      scoreSpan.textContent = Number(scoreSpan.textContent) + 1;
+      selectedBtn.classList.add("correct");
+    } else {
+      selectedBtn.classList.add("incorrect");
+    }
   }
 });
