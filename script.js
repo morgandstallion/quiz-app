@@ -76,12 +76,18 @@ startButton.addEventListener("click", () => {
 exitQuiz.addEventListener("click", () => {
   startScreen.classList.add("active");
   quizScreen.classList.remove("active");
+
+  currentQuestionIndex = 0;
+  currentQuestionSpan.textContent = 1;
+  scoreSpan.textContent = 0;
+  answersContainer.innerHTML = "";
+  addQuizQuestion(currentQuestionIndex);
 });
 
 // ADD QUIZ QUESTIONS
 function addQuizQuestion(currentQuestionIndex) {
   questionText.textContent = quizQuestions[currentQuestionIndex].question;
-  currentQuestionSpan.textContent = 1;
+
   totalQuestionsSpan.textContent = quizQuestions.length;
 
   const questionBox = document.createElement("div");
@@ -117,6 +123,21 @@ answersContainer.addEventListener("click", (e) => {
       selectedBtn.classList.add("correct");
     } else {
       selectedBtn.classList.add("incorrect");
+
+      allButtons.forEach((btn) => {
+        if (btn.dataset.correct === "true") {
+          btn.classList.add("correct");
+        }
+      });
     }
   }
+
+  // UPDATE UI
+
+  setTimeout(() => {
+    answersContainer.innerHTML = "";
+    currentQuestionIndex++;
+    currentQuestionSpan.textContent = currentQuestionIndex + 1;
+    addQuizQuestion(currentQuestionIndex);
+  }, 1000);
 });
