@@ -14,6 +14,10 @@ const maxScoreSpan = document.getElementById("max-score");
 const resultMessage = document.getElementById("result-message");
 const restartButton = document.getElementById("restart-btn");
 const progressBar = document.getElementById("progress");
+const answerButtons = document.querySelectorAll(".answer-btn");
+
+// GLOBAL VARS
+let currentQuestionIndex = 0;
 
 const quizQuestions = [
   {
@@ -73,4 +77,30 @@ startButton.addEventListener("click", () => {
 exitQuiz.addEventListener("click", () => {
   startScreen.classList.add("active");
   quizScreen.classList.remove("active");
+});
+
+// ADD QUIZ QUESTIONS
+function addQuizQuestion(currentQuestionIndex) {
+  questionText.textContent = quizQuestions[currentQuestionIndex].question;
+  currentQuestionSpan.textContent = 1;
+  totalQuestionsSpan.textContent = quizQuestions.length;
+
+  const questionBox = document.createElement("div");
+  questionBox.classList.add("question-box");
+
+  quizQuestions[currentQuestionIndex].answers.forEach((answer) => {
+    const button = document.createElement("button");
+    button.classList.add("answer-btn");
+    button.textContent = answer.text;
+    questionBox.appendChild(button);
+  });
+
+  answersContainer.appendChild(questionBox);
+}
+addQuizQuestion(currentQuestionIndex);
+
+answersContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("answer-btn")) {
+    console.log(e.target.textContent);
+  }
 });
