@@ -118,3 +118,17 @@ function selectAnswer(answer, button) {
 
   setTimeout(nextQuestion, 1000);
 }
+
+function nextQuestion() {
+  state.currentQuestion++;
+  state.answered = false;
+
+  if (state.currentQuestion >= quizQuestions.length) {
+    state.screen = "result";
+  }
+
+  render();
+}
+
+restartButton.addEventListener("click", startQuiz);
+startButton.addEventListener("click", startQuiz);
