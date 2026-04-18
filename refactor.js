@@ -94,3 +94,27 @@ function render() {
     maxScoreSpan.textContent = quizQuestions.length;
   }
 }
+
+function startQuiz() {
+  state.screen = "quiz";
+  state.currentQuestion = 0;
+  state.score = 0;
+  state.answered = false;
+
+  render();
+}
+
+function selectAnswer(answer, button) {
+  if (state.answered) return;
+
+  state.answered = true;
+
+  if (answer.correct) {
+    state.score++;
+    button.classList.add("correct");
+  } else {
+    button.classList.add("incorrect");
+  }
+
+  setTimeout(nextQuestion, 1000);
+}
