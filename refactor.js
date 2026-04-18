@@ -65,3 +65,32 @@ const quizQuestions = [
     ],
   },
 ];
+
+const state = {
+  screen: "start",
+  currentQuestion: 0,
+  score: 0,
+  answered: false,
+};
+
+function render() {
+  startScreen.classList.remove("active");
+  quizScreen.classList.remove("active");
+  resultScreen.classList.remove("active");
+
+  if (state.screen === "start") {
+    startScreen.classList.add("active");
+  }
+
+  if (state.screen === "quiz") {
+    quizScreen.classList.add("active");
+    renderQuestion();
+  }
+
+  if (state.screen === "result") {
+    resultScreen.classList.add("active");
+
+    finalScoreSpan.textContent = state.score;
+    maxScoreSpan.textContent = quizQuestions.length;
+  }
+}
